@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react";
 import { posts as initialPosts } from "../data/posts";
 
 export interface Post {
@@ -19,7 +24,9 @@ interface PostContextType {
   deletePost: (id: number) => void;
   getPostById: (id: number) => Post | undefined;
 }
-
+interface PostProviderProps {
+  children: ReactNode;
+}
 const PostContext = createContext<PostContextType | undefined>(undefined);
 
 export const usePosts = () => {
@@ -30,7 +37,7 @@ export const usePosts = () => {
   return context;
 };
 
-export const PostProvider: React.FC = () => {
+export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
   const addPost = (newPost: Omit<Post, "id" | "date">) => {
@@ -64,5 +71,5 @@ export const PostProvider: React.FC = () => {
     getPostById,
   };
 
-  return <PostContext.Provider value={value}></PostContext.Provider>;
+  return <PostContext.Provider value={value}>{children}</PostContext.Provider>;
 };

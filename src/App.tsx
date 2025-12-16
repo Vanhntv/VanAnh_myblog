@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import PostForm from "./components/PostForm";
 import "./App.css";
+import { PostProvider } from "./contexts/PostContext";
 
 function App() {
   return (
@@ -15,15 +16,17 @@ function App() {
       <div className="App">
         <Header />
         <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/post/:id" element={<PostDetail />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/new" element={<PostForm />} />
-            <Route path="/admin/edit/:id" element={<PostForm />} />
-          </Routes>
+          <PostProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/new" element={<PostForm />} />
+              <Route path="/admin/edit/:id" element={<PostForm />} />
+            </Routes>
+          </PostProvider>
         </main>
       </div>
     </Router>
