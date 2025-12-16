@@ -1,6 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import './Header.css';
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./Header.css";
 
 const Header = () => {
   const location = useLocation();
@@ -8,8 +8,8 @@ const Header = () => {
 
   useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', onChange);
-    return () => document.removeEventListener('fullscreenchange', onChange);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
 
   const toggleFull = async () => {
@@ -20,7 +20,7 @@ const Header = () => {
         await document.exitFullscreen();
       }
     } catch (e) {
-      console.error('Fullscreen toggle failed', e);
+      console.error("Fullscreen toggle failed", e);
     }
   };
 
@@ -38,7 +38,9 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/"
-                className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+                className={`nav-link ${
+                  location.pathname === "/" ? "active" : ""
+                }`}
               >
                 Trang chủ
               </Link>
@@ -46,7 +48,9 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/about"
-                className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+                className={`nav-link ${
+                  location.pathname === "/about" ? "active" : ""
+                }`}
               >
                 Giới thiệu
               </Link>
@@ -54,7 +58,9 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/contact"
-                className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}
+                className={`nav-link ${
+                  location.pathname === "/contact" ? "active" : ""
+                }`}
               >
                 Liên hệ
               </Link>
@@ -62,7 +68,9 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 to="/admin"
-                className={`nav-link ${location.pathname === '/admin' ? 'active' : ''}`}
+                className={`nav-link ${
+                  location.pathname === "/admin" ? "active" : ""
+                }`}
               >
                 Quản lý
               </Link>
@@ -78,15 +86,6 @@ const Header = () => {
           />
           <button className="search-btn">🔍</button>
         </div>
-
-        <button
-          className="fullscreen-btn"
-          onClick={toggleFull}
-          aria-pressed={isFullscreen}
-          aria-label={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
-        >
-          {isFullscreen ? '⤢' : '⤢'}
-        </button>
       </div>
     </header>
   );

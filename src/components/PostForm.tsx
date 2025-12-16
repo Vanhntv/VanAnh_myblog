@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { usePosts } from '../contexts/PostContext';
-import { categories } from '../data/posts';
-import './PostForm.css';
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePosts } from "../contexts/PostContext";
+import { categories } from "../data/posts";
+import "./PostForm.css";
 
 const PostForm = () => {
   const navigate = useNavigate();
@@ -11,23 +11,23 @@ const PostForm = () => {
   const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
-    title: '',
-    excerpt: '',
-    content: '',
-    author: '',
-    category: categories[1], // Skip "Tất cả"
-    imageUrl: ''
+    title: "",
+    excerpt: "",
+    content: "",
+    author: "",
+    category: categories[1],
+    imageUrl: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const hasInput = Boolean(
     formData.title.trim() ||
-    formData.excerpt.trim() ||
-    formData.content.trim() ||
-    formData.author.trim() ||
-    formData.imageUrl.trim()
+      formData.excerpt.trim() ||
+      formData.content.trim() ||
+      formData.author.trim() ||
+      formData.imageUrl.trim()
   );
 
   useEffect(() => {
@@ -40,49 +40,53 @@ const PostForm = () => {
           content: post.content,
           author: post.author,
           category: post.category,
-          imageUrl: post.imageUrl || ''
+          imageUrl: post.imageUrl || "",
         });
       }
     }
   }, [isEditing, id, getPostById]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const validateForm = () => {
-    const newErrors: {[key: string]: string} = {};
+    const newErrors: { [key: string]: string } = {};
 
     if (!formData.title.trim()) {
-      newErrors.title = 'Tiêu đề không được để trống';
+      newErrors.title = "Tiêu đề không được để trống";
     }
 
     if (!formData.excerpt.trim()) {
-      newErrors.excerpt = 'Tóm tắt không được để trống';
+      newErrors.excerpt = "Tóm tắt không được để trống";
     }
 
     if (!formData.content.trim()) {
-      newErrors.content = 'Nội dung không được để trống';
+      newErrors.content = "Nội dung không được để trống";
     }
 
     if (!formData.author.trim()) {
-      newErrors.author = 'Tác giả không được để trống';
+      newErrors.author = "Tác giả không được để trống";
     }
 
     if (!formData.category) {
-      newErrors.category = 'Vui lòng chọn danh mục';
+      newErrors.category = "Vui lòng chọn danh mục";
     }
 
     setErrors(newErrors);
@@ -105,10 +109,9 @@ const PostForm = () => {
         addPost(formData);
       }
 
-      
-      navigate('/admin');
+      navigate("/admin");
     } catch (error) {
-      console.error('Error saving post:', error);
+      console.error("Error saving post:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -119,8 +122,12 @@ const PostForm = () => {
       <div className="full-container">
         <div className="form-container">
           <div className="form-header">
-            <h1>{isEditing ? 'Chỉnh sửa bài viết' : 'Thêm bài viết mới'}</h1>
-            <p>{isEditing ? 'Cập nhật thông tin bài viết' : 'Tạo bài viết mới cho blog của bạn'}</p>
+            <h1>{isEditing ? "Chỉnh sửa bài viết" : "Thêm bài viết mới"}</h1>
+            <p>
+              {isEditing
+                ? "Cập nhật thông tin bài viết"
+                : "Tạo bài viết mới cho blog của bạn"}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="form">
@@ -134,9 +141,11 @@ const PostForm = () => {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="Nhập tiêu đề bài viết"
-                  className={errors.title ? 'error' : ''}
+                  className={errors.title ? "error" : ""}
                 />
-                {errors.title && <span className="error-message">{errors.title}</span>}
+                {errors.title && (
+                  <span className="error-message">{errors.title}</span>
+                )}
               </div>
 
               <div className="form-group">
@@ -146,15 +155,21 @@ const PostForm = () => {
                   name="category"
                   value={formData.category}
                   onChange={handleChange}
-                  className={errors.category ? 'error' : ''}
+                  className={errors.category ? "error" : ""}
                 >
-                  {categories.slice(1).map(category => ( // skip "Tất cả"
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
+                  {categories.slice(1).map(
+                    (
+                      category // skip "Tất cả"
+                    ) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    )
+                  )}
                 </select>
-                {errors.category && <span className="error-message">{errors.category}</span>}
+                {errors.category && (
+                  <span className="error-message">{errors.category}</span>
+                )}
               </div>
             </div>
 
@@ -167,9 +182,11 @@ const PostForm = () => {
                 value={formData.author}
                 onChange={handleChange}
                 placeholder="Nhập tên tác giả"
-                className={errors.author ? 'error' : ''}
+                className={errors.author ? "error" : ""}
               />
-              {errors.author && <span className="error-message">{errors.author}</span>}
+              {errors.author && (
+                <span className="error-message">{errors.author}</span>
+              )}
             </div>
 
             <div className="form-group">
@@ -182,7 +199,9 @@ const PostForm = () => {
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
               />
-              <small className="help-text">Để trống nếu không có hình ảnh</small>
+              <small className="help-text">
+                Để trống nếu không có hình ảnh
+              </small>
             </div>
 
             <div className="form-group">
@@ -194,10 +213,14 @@ const PostForm = () => {
                 onChange={handleChange}
                 placeholder="Viết tóm tắt ngắn gọn về bài viết"
                 rows={3}
-                className={errors.excerpt ? 'error' : ''}
+                className={errors.excerpt ? "error" : ""}
               />
-              {errors.excerpt && <span className="error-message">{errors.excerpt}</span>}
-              <small className="help-text">Tóm tắt sẽ hiển thị trong danh sách bài viết</small>
+              {errors.excerpt && (
+                <span className="error-message">{errors.excerpt}</span>
+              )}
+              <small className="help-text">
+                Tóm tắt sẽ hiển thị trong danh sách bài viết
+              </small>
             </div>
 
             <div className="form-group">
@@ -209,16 +232,20 @@ const PostForm = () => {
                 onChange={handleChange}
                 placeholder="Viết nội dung bài viết..."
                 rows={15}
-                className={errors.content ? 'error' : ''}
+                className={errors.content ? "error" : ""}
               />
-              {errors.content && <span className="error-message">{errors.content}</span>}
-              <small className="help-text">Hỗ trợ Markdown: # Tiêu đề, **in đậm**, *in nghiêng*</small>
+              {errors.content && (
+                <span className="error-message">{errors.content}</span>
+              )}
+              <small className="help-text">
+                Hỗ trợ Markdown: # Tiêu đề, **in đậm**, *in nghiêng*
+              </small>
             </div>
 
             <div className="form-actions">
               <button
                 type="button"
-                onClick={() => navigate('/admin')}
+                onClick={() => navigate("/admin")}
                 className="cancel-btn"
                 disabled={isSubmitting}
               >
@@ -226,13 +253,16 @@ const PostForm = () => {
               </button>
               <button
                 type="submit"
-                className={`submit-btn ${hasInput ? 'input-filled' : ''}`}
+                className={`submit-btn ${hasInput ? "input-filled" : ""}`}
                 disabled={isSubmitting}
               >
                 {isSubmitting
-                  ? (isEditing ? 'Đang cập nhật...' : 'Đang tạo...')
-                  : (isEditing ? 'Cập nhật bài viết' : 'Tạo bài viết')
-                }
+                  ? isEditing
+                    ? "Đang cập nhật..."
+                    : "Đang tạo..."
+                  : isEditing
+                  ? "Cập nhật bài viết"
+                  : "Tạo bài viết"}
               </button>
             </div>
           </form>

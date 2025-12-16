@@ -1,34 +1,35 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { categories } from '../data/posts';
-import { usePosts } from '../contexts/PostContext';
-import './Home.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { categories } from "../data/posts";
+import { usePosts } from "../contexts/PostContext";
+import "./Home.css";
 
 const Home = () => {
   const { posts } = usePosts();
-  const [selectedCategory, setSelectedCategory] = useState('Tất cả');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("Tất cả");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredPosts = posts.filter(post => {
-    const matchesCategory = selectedCategory === 'Tất cả' || post.category === selectedCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.author.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredPosts = posts.filter((post) => {
+    const matchesCategory =
+      selectedCategory === "Tất cả" || post.category === selectedCategory;
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.author.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return date.toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   return (
     <div className="home">
-      {/* Hero Section */}
       <section className="hero">
         <div className="hero-container">
           <h1 className="hero-title">Chào mừng đến với Blog của chúng tôi</h1>
@@ -38,17 +39,18 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Filters and Search */}
       <div className="filters-section">
         <div className="container">
           <div className="filters">
             <div className="category-filter">
               <h3>Danh mục:</h3>
               <div className="category-buttons">
-                {categories.map(category => (
+                {categories.map((category) => (
                   <button
                     key={category}
-                    className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
+                    className={`category-btn ${
+                      selectedCategory === category ? "active" : ""
+                    }`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category}
@@ -70,11 +72,12 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Posts Grid */}
       <div className="full-container">
         <div className="posts-section">
           <h2 className="section-title">
-            {selectedCategory === 'Tất cả' ? 'Tất cả bài viết' : `Bài viết: ${selectedCategory}`}
+            {selectedCategory === "Tất cả"
+              ? "Tất cả bài viết"
+              : `Bài viết: ${selectedCategory}`}
             {searchTerm && ` - Tìm kiếm: "${searchTerm}"`}
           </h2>
 
@@ -84,7 +87,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="posts-grid">
-              {filteredPosts.map(post => (
+              {filteredPosts.map((post) => (
                 <PostCard key={post.id} post={post} formatDate={formatDate} />
               ))}
             </div>
@@ -95,7 +98,13 @@ const Home = () => {
   );
 };
 
-const PostCard = ({ post, formatDate }: { post: Post; formatDate: (date: string) => string }) => {
+const PostCard = ({
+  post,
+  formatDate,
+}: {
+  post: Post;
+  formatDate: (date: string) => string;
+}) => {
   return (
     <article className="post-card">
       {post.imageUrl && (

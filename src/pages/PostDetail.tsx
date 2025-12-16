@@ -1,11 +1,11 @@
-import { useParams, Link } from 'react-router-dom';
-import { usePosts } from '../contexts/PostContext';
-import './PostDetail.css';
+import { useParams, Link } from "react-router-dom";
+import { usePosts } from "../contexts/PostContext";
+import "./PostDetail.css";
 
 const PostDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { getPostById } = usePosts();
-  const post = getPostById(parseInt(id || '0'));
+  const post = getPostById(parseInt(id || "0"));
 
   if (!post) {
     return (
@@ -23,21 +23,19 @@ const PostDetail = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return date.toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
-  // Get related posts (same category, excluding current post)
   const relatedPosts = posts
-    .filter(p => p.category === post.category && p.id !== post.id)
+    .filter((p) => p.category === post.category && p.id !== post.id)
     .slice(0, 3);
 
   return (
     <div className="post-detail">
-      {/* Hero Section */}
       <section className="post-hero">
         <div className="container">
           <div className="post-meta-large">
@@ -49,7 +47,6 @@ const PostDetail = () => {
         </div>
       </section>
 
-      {/* Main Content */}
       <div className="container">
         <div className="post-content-wrapper">
           {post.imageUrl && (
@@ -61,24 +58,24 @@ const PostDetail = () => {
           <div className="post-content">
             <div
               className="post-body"
-              dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br>') }}
+              dangerouslySetInnerHTML={{
+                __html: post.content.replace(/\n/g, "<br>"),
+              }}
             />
           </div>
 
-          {/* Back Button */}
           <div className="post-navigation">
             <Link to="/" className="back-btn">
-              ← Quay về trang chủ
+              Quay về trang chủ
             </Link>
           </div>
         </div>
 
-        {/* Related Posts */}
         {relatedPosts.length > 0 && (
           <section className="related-posts">
             <h2>Bài viết liên quan</h2>
             <div className="related-posts-grid">
-              {relatedPosts.map(relatedPost => (
+              {relatedPosts.map((relatedPost) => (
                 <article key={relatedPost.id} className="related-post-card">
                   {relatedPost.imageUrl && (
                     <div className="related-post-image">
@@ -87,12 +84,18 @@ const PostDetail = () => {
                   )}
                   <div className="related-post-content">
                     <h3>
-                      <Link to={`/post/${relatedPost.id}`}>{relatedPost.title}</Link>
+                      <Link to={`/post/${relatedPost.id}`}>
+                        {relatedPost.title}
+                      </Link>
                     </h3>
                     <p>{relatedPost.excerpt}</p>
                     <div className="related-post-meta">
-                      <span className="related-post-author">{relatedPost.author}</span>
-                      <span className="related-post-date">{formatDate(relatedPost.date)}</span>
+                      <span className="related-post-author">
+                        {relatedPost.author}
+                      </span>
+                      <span className="related-post-date">
+                        {formatDate(relatedPost.date)}
+                      </span>
                     </div>
                   </div>
                 </article>

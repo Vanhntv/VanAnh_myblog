@@ -4,7 +4,6 @@ const About = () => {
   return (
     <div className="about">
       <div className="container">
-        {/* Hero Section */}
         <section className="about-hero">
           <h1>Về chúng tôi</h1>
           <p className="hero-subtitle">
@@ -12,7 +11,6 @@ const About = () => {
           </p>
         </section>
 
-        {/* Main Content */}
         <div className="about-content">
           <div className="about-section">
             <h2>Sứ mệnh của chúng tôi</h2>
