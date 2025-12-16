@@ -10,19 +10,19 @@ const Header = () => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
-  }, []);
+  }, [isFullscreen]);
 
-  const toggleFull = async () => {
-    try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
-      }
-    } catch (e) {
-      console.error("Fullscreen toggle failed", e);
-    }
-  };
+  // const toggleFull = async () => {
+  //   try {
+  //     if (!document.fullscreenElement) {
+  //       await document.documentElement.requestFullscreen();
+  //     } else {
+  //       await document.exitFullscreen();
+  //     }
+  //   } catch (e) {
+  //     console.error("Fullscreen toggle failed", e);
+  //   }
+  // };
 
   return (
     <header className="header">
