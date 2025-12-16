@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { categories } from "../data/posts";
+import { categories, type Post } from "../data/posts";
 import { usePosts } from "../contexts/PostContext";
 import "./Home.css";
 

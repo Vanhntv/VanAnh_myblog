@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { posts as initialPosts, categories } from '../data/posts';
+import React, { createContext, useContext, useState } from "react";
+import { posts as initialPosts } from "../data/posts";
 
 export interface Post {
   id: number;
@@ -14,7 +14,7 @@ export interface Post {
 
 interface PostContextType {
   posts: Post[];
-  addPost: (post: Omit<Post, 'id' | 'date'>) => void;
+  addPost: (post: Omit<Post, "id" | "date">) => void;
   updatePost: (id: number, post: Partial<Post>) => void;
   deletePost: (id: number) => void;
   getPostById: (id: number) => Post | undefined;
@@ -25,39 +25,35 @@ const PostContext = createContext<PostContextType | undefined>(undefined);
 export const usePosts = () => {
   const context = useContext(PostContext);
   if (!context) {
-    throw new Error('usePosts must be used within a PostProvider');
+    throw new Error("usePosts must be used within a PostProvider");
   }
   return context;
 };
 
-interface PostProviderProps {
-  children: ReactNode;
-}
-
-export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
+export const PostProvider: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>(initialPosts);
 
-  const addPost = (newPost: Omit<Post, 'id' | 'date'>) => {
+  const addPost = (newPost: Omit<Post, "id" | "date">) => {
     const post: Post = {
       ...newPost,
-      id: Math.max(...posts.map(p => p.id)) + 1,
-      date: new Date().toISOString().split('T')[0], // YYYY-MM-DD format
+      id: Math.max(...posts.map((p) => p.id)) + 1,
+      date: new Date().toISOString().split("T")[0],
     };
-    setPosts(prev => [...prev, post]);
+    setPosts((prev) => [...prev, post]);
   };
 
   const updatePost = (id: number, updatedPost: Partial<Post>) => {
-    setPosts(prev => prev.map(post =>
-      post.id === id ? { ...post, ...updatedPost } : post
-    ));
+    setPosts((prev) =>
+      prev.map((post) => (post.id === id ? { ...post, ...updatedPost } : post))
+    );
   };
 
   const deletePost = (id: number) => {
-    setPosts(prev => prev.filter(post => post.id !== id));
+    setPosts((prev) => prev.filter((post) => post.id !== id));
   };
 
   const getPostById = (id: number) => {
-    return posts.find(post => post.id === id);
+    return posts.find((post) => post.id === id);
   };
 
   const value: PostContextType = {
@@ -68,9 +64,5 @@ export const PostProvider: React.FC<PostProviderProps> = ({ children }) => {
     getPostById,
   };
 
-  return (
-    <PostContext.Provider value={value}>
-      {children}
-    </PostContext.Provider>
-  );
+  return <PostContext.Provider value={value}></PostContext.Provider>;
 };

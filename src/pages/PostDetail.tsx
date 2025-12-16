@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { usePosts } from "../contexts/PostContext";
 import "./PostDetail.css";
+import { posts } from "../data/posts";
 
 const PostDetail = () => {
   const { id } = useParams<{ id: string }>();
